@@ -3,11 +3,18 @@ package engineTester;
 import org.lwjgl.LWJGLUtil;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
+import renderEngine.Loader;
+import renderEngine.RawModel;
+import renderEngine.Renderer;
 
 import java.io.File;
 
 public class MainGameLoop {
-    public static void setupLwjglNativePath() {
+
+    /**
+     * tells lwjgl where to find the native libraries
+     */
+    private static void setupLwjglNativePath() {
         // see: https://stackoverflow.com/a/30347873/2397327
         File JGLLib;
         switch (LWJGLUtil.getPlatform()) {
@@ -30,14 +37,35 @@ public class MainGameLoop {
 
         DisplayManager.createDisplay();
 
+        Loader loader = new Loader();
+        Renderer renderer = new Renderer();
+
+        float[] vertices = {
+            // left bottom triangle
+            -0.5f, 0.5f, 0f,
+            -0.5f, -0.5f, 0f,
+            0.5f, -0.5f, 0f,
+            // right top triangle
+            0.5f, -0.5f, 0f,
+            0.5f, 0.5f, 0f,
+            -0.5f, 0.5f, 0f
+        };
+
+        RawModel model = loader.loadToVAO(vertices);
+
+        // main game loop -- runs until user requests to close the window
         while (!Display.isCloseRequested()) {
+            renderer.prepare();
+
             // game logic
             // TODO
 
             // render
+            renderer.render(model);
             DisplayManager.updateDisplay();
         }
 
+        loader.cleanUp();
         DisplayManager.closeDisplay();
     }
 }

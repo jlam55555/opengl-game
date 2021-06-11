@@ -18,7 +18,7 @@ $ mvn install
 ```bash
 $ mvn compile exec:java
 ```
-If you are having errors compiling/running, see #[Notes](#notes).
+If you are having errors compiling/running, see [Notes](#notes).
 
 ##### Clean:
 ```bash
@@ -34,7 +34,7 @@ If Maven is configured to use a newer Java version, running the executable may f
 ```bash
 Inconsistency detected by ld.so: dl-lookup.c: 105: check_match: Assertion `version->filename == NULL || ! _dl_name_match_p (version->filename, map)' failed!
 ```
-Make sure you run with Java 1.8 -- set this setting in your IDE or set the `JAVA_HOME` environment variable, e.g.:
+Make sure you run with Java 1.8 -- set this setting in your IDE or set the `JAVA_HOME` environment variable to the appropriate Java installation location, e.g.:
 ```bash
 $ JAVA_HOME=/usr/lib/jvm/java-8-openjdk/ mvn compile exec:java
 ```
