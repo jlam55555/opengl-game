@@ -6,6 +6,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 import java.io.File;
 
@@ -39,6 +40,7 @@ public class MainGameLoop {
 
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
+        StaticShader shader = new StaticShader();
 
         float[] vertices = {
             -0.5f, 0.5f, 0f,    // v0
@@ -56,16 +58,18 @@ public class MainGameLoop {
 
         // main game loop -- runs until user requests to close the window
         while (!Display.isCloseRequested()) {
-            renderer.prepare();
-
             // game logic
             // TODO
 
             // render
+            renderer.prepare();
+            shader.start();
             renderer.render(model);
+            shader.stop();
             DisplayManager.updateDisplay();
         }
 
+        shader.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
