@@ -1,12 +1,14 @@
 package engineTester;
 
+import models.TexturedModel;
 import org.lwjgl.LWJGLUtil;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
-import renderEngine.RawModel;
+import models.RawModel;
 import renderEngine.Renderer;
 import shaders.StaticShader;
+import textures.ModelTexture;
 
 import java.io.File;
 
@@ -54,7 +56,16 @@ public class MainGameLoop {
             3, 1, 2             // triangle 2
         };
 
-        RawModel model = loader.loadToVAO(vertices, indices);
+        float[] textureCoords = {
+            0, 0,               // v0
+            0, 1,               // v1
+            1, 1,               // v2
+            1, 0                // v3
+        };
+
+        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("texture"));
+        TexturedModel texturedModel = new TexturedModel(model, texture);
 
         // main game loop -- runs until user requests to close the window
         while (!Display.isCloseRequested()) {
@@ -64,7 +75,7 @@ public class MainGameLoop {
             // render
             renderer.prepare();
             shader.start();
-            renderer.render(model);
+            renderer.render(texturedModel);
             shader.stop();
             DisplayManager.updateDisplay();
         }
