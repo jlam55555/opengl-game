@@ -41,17 +41,18 @@ public class MainGameLoop {
         Renderer renderer = new Renderer();
 
         float[] vertices = {
-            // left bottom triangle
-            -0.5f, 0.5f, 0f,
-            -0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            // right top triangle
-            0.5f, -0.5f, 0f,
-            0.5f, 0.5f, 0f,
-            -0.5f, 0.5f, 0f
+            -0.5f, 0.5f, 0f,    // v0
+            -0.5f, -0.5f, 0f,   // v1
+            0.5f, -0.5f, 0f,    // v2
+            0.5f, 0.5f, 0f      // v3
         };
 
-        RawModel model = loader.loadToVAO(vertices);
+        int[] indices = {
+            0, 1, 3,            // triangle 1
+            3, 1, 2             // triangle 2
+        };
+
+        RawModel model = loader.loadToVAO(vertices, indices);
 
         // main game loop -- runs until user requests to close the window
         while (!Display.isCloseRequested()) {
